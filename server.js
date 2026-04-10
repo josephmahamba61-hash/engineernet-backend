@@ -1,4 +1,4 @@
-const express = require("express") 
+const express = require("express")  
 const sqlite3 = require("sqlite3").verbose()
 const cors = require("cors")
 const bodyParser = require("body-parser")
@@ -208,7 +208,7 @@ app.get("/products",(req,res)=>{
  })
 })
 
-/* ================= SINGLE PRODUCT (NEW ONLY) ================= */
+/* ================= SINGLE PRODUCT ================= */
 
 app.get("/product/:id",(req,res)=>{
  const id = req.params.id
@@ -285,7 +285,7 @@ app.get("/quotes/:rfq_id",(req,res)=>{
  })
 })
 
-/* ================= STRIPE CHECKOUT ================= */
+/* ================= STRIPE ================= */
 
 app.post("/create-checkout-session", async (req,res)=>{
   const { amount } = req.body
@@ -312,7 +312,7 @@ app.post("/create-checkout-session", async (req,res)=>{
   res.json({url: session.url})
 })
 
-/* ================= PAYNOW / ECOCASH ================= */
+/* ================= PAYNOW ================= */
 
 app.post("/paynow-payment",(req,res)=>{
  const { amount } = req.body
@@ -367,6 +367,6 @@ app.post("/rate",(req,res)=>{
 
 const PORT = process.env.PORT || 5000
 
-app.listen(PORT,()=>{
- console.log("Server running on port", PORT)
+app.listen(PORT, () => {
+  console.log("Server running on port " + PORT)
 })
