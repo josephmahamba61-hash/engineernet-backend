@@ -7,16 +7,37 @@ const Stripe = require("stripe")
 const { v4: uuidv4 } = require("uuid")
 
 const app = express()
+
+/* ================= ERROR HANDLING (NEW ONLY) ================= */
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err)
+})
+
+process.on("unhandledRejection", (err) => {
+  console.error("Unhandled Rejection:", err)
+})
+
 app.use(cors({
   origin: "*"
 }))
 app.use(bodyParser.json())
 
-const stripe = new Stripe("sk_test_yourkey") // replace with your key
+/* ================= STRIPE SAFE INIT (UPDATED ONLY) ================= */
+let stripe
+try {
+  stripe = new Stripe(process.env.STRIPE_KEY || "sk_test_dummy")
+} catch (err) {
+  console.log("Stripe failed to initialize")
+}
 
 const db = new sqlite3.Database("./engineernet.db", (err)=>{
  if(err) console.log(err)
  else console.log("Database connected")
+})
+
+/* ================= ROOT ROUTE (NEW ONLY) ================= */
+app.get("/", (req, res) => {
+  res.send("EngineerNet backend is running ✅")
 })
 
 /* ================= OTP ================= */
